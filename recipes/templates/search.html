@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block carousel %}
+{% endblock carousel %}
+
+{% block main %}
+<div class="container mt-3 mb-3">
+    <h3 class="text-center">{{ title }}</h3>
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        {% for recipe in recipes %}
+        <div class="col">
+            <div class="card">
+                <a href="{% url 'recipe_detail' recipe.id %}">
+                    <img src="{{ recipe.image.url }}"
+                         class="card-img-top" alt="...">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">{{ recipe.title }}</h5>
+                    <p class="card-text">{{ recipe.description|truncatewords:20 }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock main %}

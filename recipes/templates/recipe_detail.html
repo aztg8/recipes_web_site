@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block carousel %}
+{% endblock carousel %}
+
+{% block main %}
+
+<div class="container mt-3 mb-3">
+    <div class="d-flex justify-content-between">
+        <div class="col-7">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <h5>Категория: {{ recipe.category.title }}</h5>
+                        </div>
+                        <div>
+                            {% if request.user.id == recipe.author.id %}
+                            <a href="{% url 'delete_recipe' recipe.id %}" class="btn btn-danger">Удалить</a>
+                            <a href="{% url 'update_recipe' recipe.id %}" class="btn btn-warning">Изменить</a>
+                            {% endif %}
+                            <a href="{% url 'index' %}" class="btn btn-success">Назад</a>
+                        </div>
+                    </div>
+                </div>
+
+                <img src="{{ recipe.image.url }}" alt="..." class="rounded img-top">
+                <div class="card-body">
+                    <h5 class="text-center">
+                        {{ recipe.title }}
+                    </h5>
+                    <p>{{ recipe.description }}</p>
+
+                    <div class="d-flex justify-content-between">
+                        <div class="mx-3">
+                            <h6><i class="fa-solid fa-fish mx-2"></i>Порции: {{ recipe.servings }}</h6>
+                            <h6><i class="fa-solid fa-plane mx-2"></i>Калории: {{ recipe.caloriesPerServing }}</h6>
+                            <h6><i class="fa-solid fa-user mx-2"></i>Автор: <a href="{% url 'profile' recipe.author.id %}">
+                                @{{ recipe.author.username }}
+                            </a></h6>
+                        </div>
+                        <div>
+                            <h6><i class="fa-solid fa-clock mx-2"></i>Время подготовки: {{ recipe.prepTimeMinutes }}</h6>
+                            <h6><i class="fa-solid fa-clock mx-2"></i>Время приготовления: {{ recipe.cookTimeMinutes }}</h6>
+                            <h6><i class="fa-solid fa-hippo mx-2"></i>Сложность: {{ recipe.difficulty }}</h6>
+                        </div>
+                    </div>
+
+
+
+
+                    <h5 class="text-center">Ингредиенты</h5>
+
+                    <ol>
+                        {% for ing in ingredients %}
+                        <li>{{ ing.title }}</li>
+                        {% endfor %}
+                    </ol>
+
+                    <h5 class="text-center">Инструкции</h5>
+
+                    <ol>
+                        {% for ins in instructions %}
+                        <li>{{ ins.title }}</li>
+                        {% endfor %}
+                    </ol>
+
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h5>Кухня: {{ recipe.cuisine }}</h5>
+                        </div>
+                        <div>
+                            <h5>
+                                Просмотры: {{ recipe.viewCount}}
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+
+            {% for recipe in top_recipes %}
+                <div class="card">
+                        <a href="{% url 'recipe_detail' recipe.id %}">
+                            <img src="{{ recipe.image.url }}"
+                                 class="card-img-top" alt="...">
+                        </a>
+
+                        <div class="card-body">
+                            <h5 class="card-title">{{ recipe.title }}</h5>
+                            <p class="card-text">{{ recipe.description|truncatewords:20 }}</p>
+                        </div>
+                    </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock main %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block carousel %}
+{% endblock carousel %}
+
+{% block main %}
+<div class="container mt-3 mb-3">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная страница</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ difficulty.title }}</li>
+        </ol>
+    </nav>
+
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for recipe in recipes %}
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h6 class="text-center">
+                        {{ recipe.category.title }}
+                    </h6>
+                </div>
+                <a href="{% url 'recipe_detail' recipe.id %}">
+                    <img src="{{ recipe.image.url }}"
+                         class="card-img-top" alt="...">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">{{ recipe.title }}</h5>
+                    <p class="card-text">{{ recipe.description|truncatewords:20}}</p>
+                </div>
+
+                <div class="card-footer">
+                    <h6>
+                        Время приготовления: {{ recipe.prepTimeMinutes }} минут
+                    </h6>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+</div>
+{% endblock main %}
